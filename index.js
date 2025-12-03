@@ -1,27 +1,20 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import authRoutes from "./routes/auth.js";
-import productRoutes from "./routes/products.js";
-import supplierRoutes from "./routes/supplier.js";
-import db from "./database/db.js";
-
-dotenv.config();
-
+const express = require("express");
+const cors = require("cors");
 const app = express();
+const PORT = process.env.PORT || 4000;
+
 app.use(cors());
 app.use(express.json());
 
-// Test endpoint
+// Routes
+app.use("/auth", require("./routes/auth"));
+app.use("/products", require("./routes/products"));
+app.use("/supplier", require("./routes/supplier"));
+
 app.get("/", (req, res) => {
-  res.send("Deyarak Backend Running Successfully 🚀");
+  res.send("Deyarak Backend Running");
 });
 
-// Routes
-app.use("/auth", authRoutes);
-app.use("/products", productRoutes);
-app.use("/supplier", supplierRoutes);
-
-// Start Server
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
